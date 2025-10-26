@@ -14,7 +14,17 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as TermsIndexRouteImport } from './routes/terms/index'
 import { Route as PrivacyIndexRouteImport } from './routes/privacy/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as AuthenticatedStorageRouteImport } from './routes/_authenticated/storage'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedBrandingRouteImport } from './routes/_authenticated/branding'
+import { Route as AuthenticatedStorageIndexRouteImport } from './routes/_authenticated/storage/index'
+import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedEventsIndexRouteImport } from './routes/_authenticated/events/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
+import { Route as AuthenticatedBrandingIndexRouteImport } from './routes/_authenticated/branding/index'
+import { Route as AuthenticatedEventsIdIndexRouteImport } from './routes/_authenticated/events/$id/index'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -40,49 +50,164 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
   path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedStorageRoute = AuthenticatedStorageRouteImport.update({
+  id: '/storage',
+  path: '/storage',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedBrandingRoute = AuthenticatedBrandingRouteImport.update({
+  id: '/branding',
+  path: '/branding',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedStorageIndexRoute =
+  AuthenticatedStorageIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedStorageRoute,
+  } as any)
+const AuthenticatedSettingsIndexRoute =
+  AuthenticatedSettingsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSettingsRoute,
+  } as any)
+const AuthenticatedEventsIndexRoute =
+  AuthenticatedEventsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedEventsRoute,
+  } as any)
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
-    id: '/dashboard/',
-    path: '/dashboard/',
-    getParentRoute: () => AuthenticatedRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedBrandingIndexRoute =
+  AuthenticatedBrandingIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedBrandingRoute,
+  } as any)
+const AuthenticatedEventsIdIndexRoute =
+  AuthenticatedEventsIdIndexRouteImport.update({
+    id: '/$id/',
+    path: '/$id/',
+    getParentRoute: () => AuthenticatedEventsRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/branding': typeof AuthenticatedBrandingRouteWithChildren
+  '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/events': typeof AuthenticatedEventsRouteWithChildren
+  '/settings': typeof AuthenticatedSettingsRouteWithChildren
+  '/storage': typeof AuthenticatedStorageRouteWithChildren
   '/login': typeof LoginIndexRoute
   '/privacy': typeof PrivacyIndexRoute
   '/terms': typeof TermsIndexRoute
-  '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/branding/': typeof AuthenticatedBrandingIndexRoute
+  '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/events/': typeof AuthenticatedEventsIndexRoute
+  '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/storage/': typeof AuthenticatedStorageIndexRoute
+  '/events/$id': typeof AuthenticatedEventsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginIndexRoute
   '/privacy': typeof PrivacyIndexRoute
   '/terms': typeof TermsIndexRoute
+  '/branding': typeof AuthenticatedBrandingIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/events': typeof AuthenticatedEventsIndexRoute
+  '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/storage': typeof AuthenticatedStorageIndexRoute
+  '/events/$id': typeof AuthenticatedEventsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/branding': typeof AuthenticatedBrandingRouteWithChildren
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/_authenticated/events': typeof AuthenticatedEventsRouteWithChildren
+  '/_authenticated/settings': typeof AuthenticatedSettingsRouteWithChildren
+  '/_authenticated/storage': typeof AuthenticatedStorageRouteWithChildren
   '/login/': typeof LoginIndexRoute
   '/privacy/': typeof PrivacyIndexRoute
   '/terms/': typeof TermsIndexRoute
+  '/_authenticated/branding/': typeof AuthenticatedBrandingIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/events/': typeof AuthenticatedEventsIndexRoute
+  '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/storage/': typeof AuthenticatedStorageIndexRoute
+  '/_authenticated/events/$id/': typeof AuthenticatedEventsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/privacy' | '/terms' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/branding'
+    | '/dashboard'
+    | '/events'
+    | '/settings'
+    | '/storage'
+    | '/login'
+    | '/privacy'
+    | '/terms'
+    | '/branding/'
+    | '/dashboard/'
+    | '/events/'
+    | '/settings/'
+    | '/storage/'
+    | '/events/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/privacy' | '/terms' | '/dashboard'
+  to:
+    | '/'
+    | '/login'
+    | '/privacy'
+    | '/terms'
+    | '/branding'
+    | '/dashboard'
+    | '/events'
+    | '/settings'
+    | '/storage'
+    | '/events/$id'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/_authenticated/branding'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/events'
+    | '/_authenticated/settings'
+    | '/_authenticated/storage'
     | '/login/'
     | '/privacy/'
     | '/terms/'
+    | '/_authenticated/branding/'
     | '/_authenticated/dashboard/'
+    | '/_authenticated/events/'
+    | '/_authenticated/settings/'
+    | '/_authenticated/storage/'
+    | '/_authenticated/events/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,22 +255,164 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/dashboard/': {
-      id: '/_authenticated/dashboard/'
+    '/_authenticated/storage': {
+      id: '/_authenticated/storage'
+      path: '/storage'
+      fullPath: '/storage'
+      preLoaderRoute: typeof AuthenticatedStorageRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/events': {
+      id: '/_authenticated/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof AuthenticatedEventsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/branding': {
+      id: '/_authenticated/branding'
+      path: '/branding'
+      fullPath: '/branding'
+      preLoaderRoute: typeof AuthenticatedBrandingRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/storage/': {
+      id: '/_authenticated/storage/'
+      path: '/'
+      fullPath: '/storage/'
+      preLoaderRoute: typeof AuthenticatedStorageIndexRouteImport
+      parentRoute: typeof AuthenticatedStorageRoute
+    }
+    '/_authenticated/settings/': {
+      id: '/_authenticated/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
+      parentRoute: typeof AuthenticatedSettingsRoute
+    }
+    '/_authenticated/events/': {
+      id: '/_authenticated/events/'
+      path: '/'
+      fullPath: '/events/'
+      preLoaderRoute: typeof AuthenticatedEventsIndexRouteImport
+      parentRoute: typeof AuthenticatedEventsRoute
+    }
+    '/_authenticated/dashboard/': {
+      id: '/_authenticated/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/branding/': {
+      id: '/_authenticated/branding/'
+      path: '/'
+      fullPath: '/branding/'
+      preLoaderRoute: typeof AuthenticatedBrandingIndexRouteImport
+      parentRoute: typeof AuthenticatedBrandingRoute
+    }
+    '/_authenticated/events/$id/': {
+      id: '/_authenticated/events/$id/'
+      path: '/$id'
+      fullPath: '/events/$id'
+      preLoaderRoute: typeof AuthenticatedEventsIdIndexRouteImport
+      parentRoute: typeof AuthenticatedEventsRoute
     }
   }
 }
 
-interface AuthenticatedRouteChildren {
+interface AuthenticatedBrandingRouteChildren {
+  AuthenticatedBrandingIndexRoute: typeof AuthenticatedBrandingIndexRoute
+}
+
+const AuthenticatedBrandingRouteChildren: AuthenticatedBrandingRouteChildren = {
+  AuthenticatedBrandingIndexRoute: AuthenticatedBrandingIndexRoute,
+}
+
+const AuthenticatedBrandingRouteWithChildren =
+  AuthenticatedBrandingRoute._addFileChildren(
+    AuthenticatedBrandingRouteChildren,
+  )
+
+interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
 }
 
+const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
+  {
+    AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+  }
+
+const AuthenticatedDashboardRouteWithChildren =
+  AuthenticatedDashboardRoute._addFileChildren(
+    AuthenticatedDashboardRouteChildren,
+  )
+
+interface AuthenticatedEventsRouteChildren {
+  AuthenticatedEventsIndexRoute: typeof AuthenticatedEventsIndexRoute
+  AuthenticatedEventsIdIndexRoute: typeof AuthenticatedEventsIdIndexRoute
+}
+
+const AuthenticatedEventsRouteChildren: AuthenticatedEventsRouteChildren = {
+  AuthenticatedEventsIndexRoute: AuthenticatedEventsIndexRoute,
+  AuthenticatedEventsIdIndexRoute: AuthenticatedEventsIdIndexRoute,
+}
+
+const AuthenticatedEventsRouteWithChildren =
+  AuthenticatedEventsRoute._addFileChildren(AuthenticatedEventsRouteChildren)
+
+interface AuthenticatedSettingsRouteChildren {
+  AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
+}
+
+const AuthenticatedSettingsRouteChildren: AuthenticatedSettingsRouteChildren = {
+  AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
+}
+
+const AuthenticatedSettingsRouteWithChildren =
+  AuthenticatedSettingsRoute._addFileChildren(
+    AuthenticatedSettingsRouteChildren,
+  )
+
+interface AuthenticatedStorageRouteChildren {
+  AuthenticatedStorageIndexRoute: typeof AuthenticatedStorageIndexRoute
+}
+
+const AuthenticatedStorageRouteChildren: AuthenticatedStorageRouteChildren = {
+  AuthenticatedStorageIndexRoute: AuthenticatedStorageIndexRoute,
+}
+
+const AuthenticatedStorageRouteWithChildren =
+  AuthenticatedStorageRoute._addFileChildren(AuthenticatedStorageRouteChildren)
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedBrandingRoute: typeof AuthenticatedBrandingRouteWithChildren
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
+  AuthenticatedEventsRoute: typeof AuthenticatedEventsRouteWithChildren
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRouteWithChildren
+  AuthenticatedStorageRoute: typeof AuthenticatedStorageRouteWithChildren
+}
+
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+  AuthenticatedBrandingRoute: AuthenticatedBrandingRouteWithChildren,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
+  AuthenticatedEventsRoute: AuthenticatedEventsRouteWithChildren,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRouteWithChildren,
+  AuthenticatedStorageRoute: AuthenticatedStorageRouteWithChildren,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
