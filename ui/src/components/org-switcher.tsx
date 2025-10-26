@@ -12,7 +12,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
@@ -87,7 +86,7 @@ export function OrgSwitcher() {
               <DropdownMenuLabel className="text-muted-foreground text-xs">
                 Teams
               </DropdownMenuLabel>
-              {userMemberships.data.map((membership, index) => (
+              {userMemberships.data.map((membership) => (
                 <DropdownMenuItem
                   key={membership.organization.id}
                   onClick={() => handleOrgSwitch(membership.organization.id)}
@@ -107,7 +106,6 @@ export function OrgSwitcher() {
                     )}
                   </div>
                   {membership.organization.name}
-                  <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />

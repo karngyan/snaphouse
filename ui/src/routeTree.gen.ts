@@ -19,11 +19,13 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedBrandingRouteImport } from './routes/_authenticated/branding'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedStorageIndexRouteImport } from './routes/_authenticated/storage/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedEventsIndexRouteImport } from './routes/_authenticated/events/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedBrandingIndexRouteImport } from './routes/_authenticated/branding/index'
+import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account/index'
 import { Route as AuthenticatedEventsIdIndexRouteImport } from './routes/_authenticated/events/$id/index'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
@@ -75,6 +77,11 @@ const AuthenticatedBrandingRoute = AuthenticatedBrandingRouteImport.update({
   path: '/branding',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedStorageIndexRoute =
   AuthenticatedStorageIndexRouteImport.update({
     id: '/',
@@ -105,6 +112,12 @@ const AuthenticatedBrandingIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedBrandingRoute,
   } as any)
+const AuthenticatedAccountIndexRoute =
+  AuthenticatedAccountIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAccountRoute,
+  } as any)
 const AuthenticatedEventsIdIndexRoute =
   AuthenticatedEventsIdIndexRouteImport.update({
     id: '/$id/',
@@ -114,6 +127,7 @@ const AuthenticatedEventsIdIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AuthenticatedAccountRouteWithChildren
   '/branding': typeof AuthenticatedBrandingRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/events': typeof AuthenticatedEventsRouteWithChildren
@@ -122,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginIndexRoute
   '/privacy': typeof PrivacyIndexRoute
   '/terms': typeof TermsIndexRoute
+  '/account/': typeof AuthenticatedAccountIndexRoute
   '/branding/': typeof AuthenticatedBrandingIndexRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/events/': typeof AuthenticatedEventsIndexRoute
@@ -134,6 +149,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginIndexRoute
   '/privacy': typeof PrivacyIndexRoute
   '/terms': typeof TermsIndexRoute
+  '/account': typeof AuthenticatedAccountIndexRoute
   '/branding': typeof AuthenticatedBrandingIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/events': typeof AuthenticatedEventsIndexRoute
@@ -145,6 +161,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/account': typeof AuthenticatedAccountRouteWithChildren
   '/_authenticated/branding': typeof AuthenticatedBrandingRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/_authenticated/events': typeof AuthenticatedEventsRouteWithChildren
@@ -153,6 +170,7 @@ export interface FileRoutesById {
   '/login/': typeof LoginIndexRoute
   '/privacy/': typeof PrivacyIndexRoute
   '/terms/': typeof TermsIndexRoute
+  '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/branding/': typeof AuthenticatedBrandingIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/events/': typeof AuthenticatedEventsIndexRoute
@@ -164,6 +182,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account'
     | '/branding'
     | '/dashboard'
     | '/events'
@@ -172,6 +191,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/terms'
+    | '/account/'
     | '/branding/'
     | '/dashboard/'
     | '/events/'
@@ -184,6 +204,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/terms'
+    | '/account'
     | '/branding'
     | '/dashboard'
     | '/events'
@@ -194,6 +215,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/_authenticated/account'
     | '/_authenticated/branding'
     | '/_authenticated/dashboard'
     | '/_authenticated/events'
@@ -202,6 +224,7 @@ export interface FileRouteTypes {
     | '/login/'
     | '/privacy/'
     | '/terms/'
+    | '/_authenticated/account/'
     | '/_authenticated/branding/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/events/'
@@ -290,6 +313,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBrandingRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/storage/': {
       id: '/_authenticated/storage/'
       path: '/'
@@ -325,6 +355,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBrandingIndexRouteImport
       parentRoute: typeof AuthenticatedBrandingRoute
     }
+    '/_authenticated/account/': {
+      id: '/_authenticated/account/'
+      path: '/'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
+      parentRoute: typeof AuthenticatedAccountRoute
+    }
     '/_authenticated/events/$id/': {
       id: '/_authenticated/events/$id/'
       path: '/$id'
@@ -334,6 +371,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedAccountRouteChildren {
+  AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
+}
+
+const AuthenticatedAccountRouteChildren: AuthenticatedAccountRouteChildren = {
+  AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
+}
+
+const AuthenticatedAccountRouteWithChildren =
+  AuthenticatedAccountRoute._addFileChildren(AuthenticatedAccountRouteChildren)
 
 interface AuthenticatedBrandingRouteChildren {
   AuthenticatedBrandingIndexRoute: typeof AuthenticatedBrandingIndexRoute
@@ -400,6 +448,7 @@ const AuthenticatedStorageRouteWithChildren =
   AuthenticatedStorageRoute._addFileChildren(AuthenticatedStorageRouteChildren)
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRouteWithChildren
   AuthenticatedBrandingRoute: typeof AuthenticatedBrandingRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
   AuthenticatedEventsRoute: typeof AuthenticatedEventsRouteWithChildren
@@ -408,6 +457,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRouteWithChildren,
   AuthenticatedBrandingRoute: AuthenticatedBrandingRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
   AuthenticatedEventsRoute: AuthenticatedEventsRouteWithChildren,
