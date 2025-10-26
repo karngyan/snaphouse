@@ -9,58 +9,99 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
-import { Route as DemoClerkRouteImport } from './routes/demo/clerk'
+import { Route as TermsIndexRouteImport } from './routes/terms/index'
+import { Route as PrivacyIndexRouteImport } from './routes/privacy/index'
+import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
+const TermsIndexRoute = TermsIndexRouteImport.update({
+  id: '/terms/',
+  path: '/terms/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoClerkRoute = DemoClerkRouteImport.update({
-  id: '/demo/clerk',
-  path: '/demo/clerk',
+const PrivacyIndexRoute = PrivacyIndexRouteImport.update({
+  id: '/privacy/',
+  path: '/privacy/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginIndexRoute = LoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardIndexRoute =
+  AuthenticatedDashboardIndexRouteImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/demo/clerk': typeof DemoClerkRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/login': typeof LoginIndexRoute
+  '/privacy': typeof PrivacyIndexRoute
+  '/terms': typeof TermsIndexRoute
+  '/dashboard': typeof AuthenticatedDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/demo/clerk': typeof DemoClerkRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/login': typeof LoginIndexRoute
+  '/privacy': typeof PrivacyIndexRoute
+  '/terms': typeof TermsIndexRoute
+  '/dashboard': typeof AuthenticatedDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/demo/clerk': typeof DemoClerkRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/login/': typeof LoginIndexRoute
+  '/privacy/': typeof PrivacyIndexRoute
+  '/terms/': typeof TermsIndexRoute
+  '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/demo/clerk' | '/demo/tanstack-query'
+  fullPaths: '/' | '/login' | '/privacy' | '/terms' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo/clerk' | '/demo/tanstack-query'
-  id: '__root__' | '/' | '/demo/clerk' | '/demo/tanstack-query'
+  to: '/' | '/login' | '/privacy' | '/terms' | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/login/'
+    | '/privacy/'
+    | '/terms/'
+    | '/_authenticated/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DemoClerkRoute: typeof DemoClerkRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  LoginIndexRoute: typeof LoginIndexRoute
+  PrivacyIndexRoute: typeof PrivacyIndexRoute
+  TermsIndexRoute: typeof TermsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -68,27 +109,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
+    '/terms/': {
+      id: '/terms/'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/clerk': {
-      id: '/demo/clerk'
-      path: '/demo/clerk'
-      fullPath: '/demo/clerk'
-      preLoaderRoute: typeof DemoClerkRouteImport
+    '/privacy/': {
+      id: '/privacy/'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard/': {
+      id: '/_authenticated/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DemoClerkRoute: DemoClerkRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  LoginIndexRoute: LoginIndexRoute,
+  PrivacyIndexRoute: PrivacyIndexRoute,
+  TermsIndexRoute: TermsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
