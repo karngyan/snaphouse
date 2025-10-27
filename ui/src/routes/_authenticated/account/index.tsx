@@ -9,7 +9,7 @@ export const Route = createFileRoute('/_authenticated/account/')({
 function RouteComponent() {
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <BackgroundBeams className="absolute inset-0" />
+      <BackgroundBeams className="pointer-events-none z-0 absolute inset-0" />
       <UserProfile />
     </div>
   )
