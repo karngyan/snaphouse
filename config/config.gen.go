@@ -2,42 +2,89 @@
 
 package config
 
-type DatabaseConfig struct {
-	DSN string
+import (
+	"os"
+	"strconv"
+)
+
+type databaseConfig struct{}
+
+type mediaConfig struct{}
+
+type uiApiConfig struct{}
+
+type uiConfig struct{}
+
+func (databaseConfig) DSN() string {
+	if v := os.Getenv("CONFIG_DATABASE_DSN"); v != "" {
+		return v
+	}
+	return "postgres://snaphouse:passwd@localhost:5432/snaphouse?sslmode=disable"
 }
 
-type MediaConfig struct {
-	AwsAccessKeyId     string
-	AwsSecretAccessKey string
-	BucketName         string
-	Region             string
+func (mediaConfig) AwsAccessKeyId() string {
+	if v := os.Getenv("CONFIG_MEDIA_AWS_ACCESS_KEY_ID"); v != "" {
+		return v
+	}
+	return ""
 }
 
-type UiApiConfig struct {
-	CorsAllowedOrigins []string
-	Port               int64
+func (mediaConfig) AwsSecretAccessKey() string {
+	if v := os.Getenv("CONFIG_MEDIA_AWS_SECRET_ACCESS_KEY"); v != "" {
+		return v
+	}
+	return ""
 }
 
-type UiConfig struct {
-	Port int64
+func (mediaConfig) BucketName() string {
+	if v := os.Getenv("CONFIG_MEDIA_BUCKET_NAME"); v != "" {
+		return v
+	}
+	return "snaphouse-in-media"
+}
+
+func (mediaConfig) Region() string {
+	if v := os.Getenv("CONFIG_MEDIA_REGION"); v != "" {
+		return v
+	}
+	return "ap-south-1"
+}
+
+func (uiApiConfig) CorsAllowedOrigins() []string {
+	if v := os.Getenv("CONFIG_UI_API_CORS_ALLOWED_ORIGINS"); v != "" {
+		// Array overrides not supported via env vars
+	}
+	return []string{"http://localhost:3000"}
+}
+
+func (uiApiConfig) Port() int64 {
+	if v := os.Getenv("CONFIG_UI_API_PORT"); v != "" {
+		if i, err := strconv.ParseInt(v, 10, 64); err == nil {
+			return i
+		}
+	}
+	return 3001
+}
+
+func (uiConfig) Port() int64 {
+	if v := os.Getenv("CONFIG_UI_PORT"); v != "" {
+		if i, err := strconv.ParseInt(v, 10, 64); err == nil {
+			return i
+		}
+	}
+	return 3000
+}
+
+func Environment() string {
+	if v := os.Getenv("CONFIG_ENVIRONMENT"); v != "" {
+		return v
+	}
+	return "development"
 }
 
 var (
-	Database = DatabaseConfig{
-		DSN: "postgres://snaphouse:passwd@localhost:5432/snaphouse?sslmode=disable",
-	}
-	Environment string = "development"
-	Media              = MediaConfig{
-		AwsAccessKeyId:     "",
-		AwsSecretAccessKey: "",
-		BucketName:         "snaphouse-in-media",
-		Region:             "ap-south-1",
-	}
-	Ui = UiConfig{
-		Port: 3000,
-	}
-	UiApi = UiApiConfig{
-		CorsAllowedOrigins: []string{"http://localhost:3000"},
-		Port:               3001,
-	}
+	Database databaseConfig
+	Media    mediaConfig
+	Ui       uiConfig
+	UiApi    uiApiConfig
 )

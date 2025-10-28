@@ -34,7 +34,7 @@ const (
 func Init(lc fx.Lifecycle, l *zap.Logger) error {
 	ctx := context.Background()
 
-	dbc, err := pgxpool.ParseConfig(config.Database.DSN)
+	dbc, err := pgxpool.ParseConfig(config.Database.DSN())
 	if err != nil {
 		return err
 	}
