@@ -1,0 +1,22 @@
+version: 2
+sql:
+  - engine: postgresql
+    schema:
+      - db/schema/global
+      - db/schema/tenant
+    queries:
+      - db/queries/global
+      - db/queries/tenant
+    gen:
+      go:
+        package: db
+        initialisms:
+          - id
+          - ip
+          - ua
+          - uuid
+        out: db
+        sql_package: pgx/v5
+        emit_interface: true
+        emit_prepared_queries: false
+        emit_exact_table_names: false

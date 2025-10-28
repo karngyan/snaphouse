@@ -1,0 +1,17 @@
+environment = "development"
+
+[ui_api]
+port = 3001
+cors_allowed_origins = ["http://localhost:3000"]
+
+[ui]
+port = 3000
+
+[database]
+DSN = "postgres://snaphouse:passwd@localhost:5432/snaphouse?sslmode=disable"
+
+[media]
+bucket_name = "snaphouse-in-media"
+region = "ap-south-1"
+aws_access_key_id = ""
+aws_secret_access_key = ""
