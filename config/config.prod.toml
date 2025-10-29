@@ -1,0 +1,17 @@
+environment = "production"
+
+[ui_api]
+port = 3001
+cors_allowed_origins = ["*"]
+
+[ui]
+port = 3000
+
+[database]
+DSN = "env:CONFIG_DATABASE_DSN"
+
+[media]
+bucket_name = "env:CONFIG_MEDIA_BUCKET_NAME"
+region = "env:CONFIG_MEDIA_REGION"
+aws_access_key_id = "env:CONFIG_MEDIA_AWS_ACCESS_KEY_ID"
+aws_secret_access_key = "env:CONFIG_MEDIA_AWS_SECRET_ACCESS_KEY"
